@@ -1,0 +1,6 @@
+[submodule "KNUT_webchat_frontend"]
+	path = KNUT_webchat_frontend
+	url = https://github.com/KNUT-webstudygroup/KNUT_webchat_frontend.git
+[submodule "KNUT_webchat_Backend"]
+	path = KNUT_webchat_Backend
+	url = https://github.com/KNUT-webstudygroup/KNUT_webchat_Backend.git
