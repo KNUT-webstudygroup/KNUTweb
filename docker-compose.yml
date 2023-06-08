@@ -1,0 +1,47 @@
+version: "3.1"
+
+services:
+  server : #일단 대규모화가 진행되기 전까지는 유지할 것.
+  # 원한다면 적은 이벤트는 람다로 해도 됨.
+    restart: always
+    build:
+      dockerfile: /KNUT_webchat_Backend/.dockerfile
+    environment:
+      - server_set=db
+    ports:
+      - "3000:3000"
+    command: >
+      npm run dev
+  
+  redis:
+    image: "redis:alpine"
+    ports:
+    - "3001:3001"
+  
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+    ports:
+      - "3002:3002"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "3003:3003"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:3002'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+  
+  
