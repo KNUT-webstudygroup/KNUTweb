@@ -16,6 +16,6 @@
 - Express
 ## Infra / DevOps
 - AWS
-- K8S,Docker
-- Kafka,Redis 
+- Docker
+- Redis 
 - MYSQL
