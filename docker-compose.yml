@@ -5,7 +5,7 @@ services:
   # 원한다면 적은 이벤트는 람다로 해도 됨.
     restart: always
     build:
-      context: ./KNUT_webchat_Backend
+      context: ./KNUT_webchat_Backend/
       dockerfile: /.dockerfile
     environment:
       - server_set=db
